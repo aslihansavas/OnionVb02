@@ -1,6 +1,6 @@
 using System;
 using MediatR;
-using OnionVb02.Application.CqrsAndMediatr.CQRS.Results.CategoryResults;
+using OnionVb02.Application.CqrsAndMediatr.Mediator.Results.CategoryResults;
 using OnionVb02.Application.CqrsAndMediatr.Mediator.Queries.CategoryQueries;
 using OnionVb02.Application.ManagerInterfaces;
 using OnionVb02.Contract.RepositoryInterfaces;
@@ -8,7 +8,7 @@ using OnionVb02.Domain.Entities;
 
 namespace OnionVb02.Application.CqrsAndMediatr.Mediator.Handlers.Read.CategoryRead;
 
-public class GetCategoryByIdQueryHandler : IRequestHandler<GetCategoryByIdQuery, GetCategoryByIdQueryResult>
+public class GetCategoryByIdQueryHandler : IRequestHandler<GetCategoryByIdQuery, GetCategoryByIdResult>
 {
     private readonly ICategoryRepository _repository;
 
@@ -17,10 +17,10 @@ public class GetCategoryByIdQueryHandler : IRequestHandler<GetCategoryByIdQuery,
         _repository = repository;
     }
 
-    public async Task<GetCategoryByIdQueryResult> Handle(GetCategoryByIdQuery request, CancellationToken cancellationToken)
+    public async Task<GetCategoryByIdResult> Handle(GetCategoryByIdQuery request, CancellationToken cancellationToken)
     {
         Category category =await _repository.GetByIdAsync(request.Id);
-        return new GetCategoryByIdQueryResult
+        return new GetCategoryByIdResult
         {
             CategoryName=category.CategoryName,
             Description=category.Description

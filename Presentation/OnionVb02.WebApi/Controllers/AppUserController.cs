@@ -36,22 +36,22 @@ namespace OnionVb02.WebApi.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateAppUser(CreateAppUserCommand command)
         {
-            await _mediator.Send(command);
-            return Ok("Veri eklendi");
+            CreateAppUserCommandResult result = await _mediator.Send(command);
+            return Ok(result);
         }
 
         [HttpPut]
         public async Task<IActionResult> UpdateAppUser(UpdateAppUserCommand command)
         {
-            await _mediator.Send(command);
-            return Ok("Veri güncellendi");
+            UpdateAppUserCommandResult result = await _mediator.Send(command);
+            return Ok(result);
         }
 
         [HttpDelete]
         public async Task<IActionResult> DeleteAppUser(int id)
         {
-            await _mediator.Send(new RemoveAppUserCommand(id));
-            return Ok("Veri Silindi");
+            RemoveAppUserCommandResult result = await _mediator.Send(new RemoveAppUserCommand(id));
+            return Ok(result);
         }
     }
 }
