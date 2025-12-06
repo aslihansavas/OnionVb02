@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using OnionVb02.Application.CqrsAndMediatr.Mediator.Results.AppUserResults;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace OnionVb02.Application.CqrsAndMediatr.Mediator.Commands.AppUserCommands
 {
-    public class RemoveAppUserCommand : IRequest
+    public class RemoveAppUserCommand : IRequest<RemoveAppUserCommandResult>
     {
         public int Id { get; set; }
 

@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using OnionVb02.Application.CqrsAndMediatr.Mediator.Commands.AppUserCommands;
+using OnionVb02.Application.CqrsAndMediatr.Mediator.Results.AppUserResults;
 using OnionVb02.Contract.RepositoryInterfaces;
 using OnionVb02.Domain.Entities;
 using System;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace OnionVb02.Application.CqrsAndMediatr.Mediator.Handlers.Modify
 {
-    public class RemoveAppUserCommandHandler : IRequestHandler<RemoveAppUserCommand>
+    public class RemoveAppUserCommandHandler : IRequestHandler<RemoveAppUserCommand,RemoveAppUserCommandResult>
     {
         private readonly IAppUserRepository _repository;
 
@@ -19,10 +20,15 @@ namespace OnionVb02.Application.CqrsAndMediatr.Mediator.Handlers.Modify
             _repository = repository;
         }
 
-        public async Task Handle(RemoveAppUserCommand request, CancellationToken cancellationToken)
+        public async Task<RemoveAppUserCommandResult> Handle(RemoveAppUserCommand request, CancellationToken cancellationToken)
         {
             AppUser value = await _repository.GetByIdAsync(request.Id);
             await _repository.DeleteAsync(value);
+            return new RemoveAppUserCommandResult
+            {
+                IsSuccess =true,
+                Message =" Silindi"
+            };
         }
     }
 }

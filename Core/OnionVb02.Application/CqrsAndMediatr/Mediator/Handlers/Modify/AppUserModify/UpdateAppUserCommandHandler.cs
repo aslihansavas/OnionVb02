@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using OnionVb02.Application.CqrsAndMediatr.Mediator.Commands.AppUserCommands;
+using OnionVb02.Application.CqrsAndMediatr.Mediator.Results.AppUserResults;
 using OnionVb02.Contract.RepositoryInterfaces;
 using OnionVb02.Domain.Entities;
 using System;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace OnionVb02.Application.CqrsAndMediatr.Mediator.Handlers.Modify
 {
-    public class UpdateAppUserCommandHandler : IRequestHandler<UpdateAppUserCommand>
+    public class UpdateAppUserCommandHandler : IRequestHandler<UpdateAppUserCommand,UpdateAppUserCommandResult>
     {
         private readonly IAppUserRepository _repository;
 
@@ -19,7 +20,7 @@ namespace OnionVb02.Application.CqrsAndMediatr.Mediator.Handlers.Modify
             _repository = repository;
         }
 
-        public async Task Handle(UpdateAppUserCommand request, CancellationToken cancellationToken)
+        public async Task<UpdateAppUserCommandResult> Handle(UpdateAppUserCommand request, CancellationToken cancellationToken)
         {
             AppUser value = await _repository.GetByIdAsync(request.Id);
             value.UserName = request.UserName;
@@ -27,6 +28,11 @@ namespace OnionVb02.Application.CqrsAndMediatr.Mediator.Handlers.Modify
             value.Status = Domain.Enums.DataStatus.Updated;
             value.UpdatedDate = DateTime.Now;
             await _repository.SaveChangesAsync();
+            return new UpdateAppUserCommandResult
+            {
+                IsSuccess=true,
+                Message = " Güncellendi"
+            };
         }
     }
 }
