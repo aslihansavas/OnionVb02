@@ -3,6 +3,8 @@ using OnionVb02.InnerInfrastructure.DependencyResolvers;
 using OnionVb02.Persistence.DependencyResolvers;
 using OnionVb02.WebApi.DependencyResolvers;
 using OnionVb02.Application.CustomMappers.DependencyResolvers;
+using OnionVb02.ValidatorStructure.DependencyResolvers;
+using OnionVb02.ValidatorStructure.Middleware;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,8 +23,12 @@ builder.Services.AddRepositoryService();
 builder.Services.AddVmMapperService();
 builder.Services.AddHandlerService();
 builder.Services.AddCustomMappers();
+builder.Services.AddValidatorServices();
 
 var app = builder.Build();
+
+// Hata Yönetimi Middleware - en başta olmalı
+app.UseMiddleware<ExceptionHandlerMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
